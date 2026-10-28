@@ -1,0 +1,27 @@
+{
+  "origen": "demo (aproximación a CRONUS en español; los reales se descargan de Business Central)",
+  "clientes": [
+    {"numero": "10000", "nombre": "Adatum Corporation", "email": "robert.townes@contoso.com", "telefono": null, "vendedor": "JO", "direcciones": ["Adatum Corporation, Calle Mayor 1, Madrid"]},
+    {"numero": "20000", "nombre": "Trey Research", "email": "helen.ray@contoso.com", "telefono": null, "vendedor": "PS", "direcciones": ["Trey Research, Avenida de la Constitución 20, Sevilla"]},
+    {"numero": "30000", "nombre": "School of Fine Art", "email": "meagan.bond@contoso.com", "telefono": null, "vendedor": "BD", "direcciones": ["School of Fine Art, Calle Sierpes 5, Sevilla"]},
+    {"numero": "40000", "nombre": "Alpine Ski House", "email": "ian.deberry@contoso.com", "telefono": null, "vendedor": "JO", "direcciones": ["Alpine Ski House, Paseo de la Castellana 100, Madrid"]},
+    {"numero": "50000", "nombre": "Relecloud", "email": "jesse.homer@contoso.com", "telefono": null, "vendedor": "PS", "direcciones": ["Relecloud, Polígono Sevilla Este, nave 4, Sevilla"]}
+  ],
+  "articulos": [
+    {"numero": "1896-S", "nombre": "Escritorio ATENAS", "unidad_base": "UDS", "precio": 1005.8, "unidades_alternativas": []},
+    {"numero": "1900-S", "nombre": "Silla de invitados PARÍS, negra", "unidad_base": "UDS", "precio": 193.7, "unidades_alternativas": []},
+    {"numero": "1906-S", "nombre": "Pedestal móvil ATENAS", "unidad_base": "UDS", "precio": 435.8, "unidades_alternativas": []},
+    {"numero": "1908-S", "nombre": "Silla giratoria LONDRES, azul", "unidad_base": "UDS", "precio": 191.0, "unidades_alternativas": ["CAJA"]},
+    {"numero": "1920-S", "nombre": "Mesa de conferencias AMBERES", "unidad_base": "UDS", "precio": 651.1, "unidades_alternativas": []},
+    {"numero": "1928-S", "nombre": "Lámpara AMSTERDAM", "unidad_base": "UDS", "precio": 55.2, "unidades_alternativas": ["CAJA"]},
+    {"numero": "1936-S", "nombre": "Silla de invitados BERLÍN, amarilla", "unidad_base": "UDS", "precio": 193.7, "unidades_alternativas": []},
+    {"numero": "1960-S", "nombre": "Silla de invitados ROMA, verde", "unidad_base": "UDS", "precio": 193.7, "unidades_alternativas": []},
+    {"numero": "1964-S", "nombre": "Silla de invitados TOKIO, azul", "unidad_base": "UDS", "precio": 193.7, "unidades_alternativas": []},
+    {"numero": "1968-S", "nombre": "Silla giratoria MÉXICO, negra", "unidad_base": "UDS", "precio": 191.0, "unidades_alternativas": []},
+    {"numero": "1972-S", "nombre": "Silla giratoria MÚNICH, amarilla", "unidad_base": "UDS", "precio": 191.0, "unidades_alternativas": []},
+    {"numero": "1980-S", "nombre": "Silla giratoria MOSCÚ, roja", "unidad_base": "UDS", "precio": 191.0, "unidades_alternativas": []},
+    {"numero": "1988-S", "nombre": "Silla de invitados SEÚL, roja", "unidad_base": "UDS", "precio": 193.7, "unidades_alternativas": []},
+    {"numero": "1996-S", "nombre": "Pizarra ATLANTA, base", "unidad_base": "UDS", "precio": 1397.3, "unidades_alternativas": []},
+    {"numero": "2000-S", "nombre": "Silla giratoria SÍDNEY, verde", "unidad_base": "UDS", "precio": 191.0, "unidades_alternativas": []}
+  ]
+}

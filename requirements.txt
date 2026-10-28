@@ -1,0 +1,19 @@
+pydantic>=2.7
+requests>=2.32
+msal>=1.28
+rapidfuzz>=3.9
+dateparser>=1.2
+python-dotenv>=1.0
+rich>=13.7
+faster-whisper>=1.1
+# Whisper en GPU NVIDIA sin instalar el CUDA Toolkit: ctranslate2 carga estas DLL desde pip
+# (ordena_poc/transcribir.py las engancha). Unos 700 MB. En CPU no hacen falta.
+nvidia-cublas-cu12
+nvidia-cudnn-cu12
+# Nube como techo (opcional): Gemini y Groq
+google-genai>=1.0
+openai>=1.50
+# La bandeja web (pinta de Navision)
+fastapi>=0.110
+uvicorn>=0.29
+python-multipart>=0.0.9

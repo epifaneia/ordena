@@ -1,0 +1,18 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+*.log
+# lo que genera la prueba de concepto: tokens, salidas, bandeja y datos descargados de Business Central
+.cache/
+salida/
+bandeja/
+data/maestros_bc.json
+data/vocabulario.txt
+# audios y documentos de prueba: nunca al repo
+audios/
+muestras/
+*.ogg
+*.m4a
+*.mp3
+*.wav

@@ -1,0 +1,41 @@
+{
+  "peticiones": [
+    {
+      "tipo": "pedido",
+      "asunto": "Pedido de 2 sillas giratorias de Londres y 1 mesa de Amberes para el jueves",
+      "resumen": "Trey Research pide dos sillas giratorias de Londres y una mesa de Amberes, con entrega el jueves si es posible.",
+      "tercero_tal_cual": "los de Trey Research",
+      "contacto_tal_cual": "Helen",
+      "direccion_entrega_tal_cual": null,
+      "fecha_entrega_tal_cual": "el jueves",
+      "referencia_cliente": null,
+      "se_refiere_a_tal_cual": null,
+      "lineas": [
+        {"descripcion_tal_cual": "sillas giratorias de esas de Londres", "cantidad": 2, "unidad_tal_cual": null, "precio_mencionado": null, "referencia_mencionada": null, "destino_tal_cual": null, "duda": null},
+        {"descripcion_tal_cual": "mesa de Amberes", "cantidad": 1, "unidad_tal_cual": null, "precio_mencionado": null, "referencia_mencionada": null, "destino_tal_cual": null, "duda": null}
+      ],
+      "observaciones": "si puede ser",
+      "campos_dudosos": [],
+      "confianza": 0.9
+    },
+    {
+      "tipo": "consulta",
+      "asunto": "Consulta de precio de los escritorios de Atenas del mes pasado",
+      "resumen": "Preguntan a cuánto estaban los escritorios de Atenas que pidieron el mes pasado.",
+      "tercero_tal_cual": "los de Trey Research",
+      "contacto_tal_cual": "Helen",
+      "direccion_entrega_tal_cual": null,
+      "fecha_entrega_tal_cual": null,
+      "referencia_cliente": null,
+      "se_refiere_a_tal_cual": "lo de los escritorios de Atenas del mes pasado",
+      "lineas": [
+        {"descripcion_tal_cual": "escritorios de Atenas", "cantidad": null, "unidad_tal_cual": null, "precio_mencionado": null, "referencia_mencionada": null, "destino_tal_cual": null, "duda": null}
+      ],
+      "observaciones": null,
+      "campos_dudosos": [],
+      "confianza": 0.85
+    }
+  ],
+  "partes_no_entendidas": [],
+  "confianza_global": 0.88
+}

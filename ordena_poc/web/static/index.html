@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Ordena · Bandeja de tickets</title>
+<link rel="stylesheet" href="/static/nav.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-doc" viewBox="0 0 32 32"><path d="M7 3h12l7 7v19H7z" fill="#fff" stroke="#3b6ea8" stroke-width="1.5"/><path d="M19 3v7h7" fill="#dbe8f7" stroke="#3b6ea8" stroke-width="1.5"/><path d="M11 15h11M11 19h11M11 23h8" stroke="#3b6ea8" stroke-width="1.5"/></symbol>
+    <symbol id="i-nuevo" viewBox="0 0 32 32"><path d="M7 3h12l7 7v19H7z" fill="#fff" stroke="#3b6ea8" stroke-width="1.5"/><path d="M19 3v7h7" fill="#dbe8f7" stroke="#3b6ea8" stroke-width="1.5"/><path d="M22 18l1.8 3.7 4 .6-2.9 2.8.7 4L22 27.2 18.4 29l.7-4-2.9-2.8 4-.6z" fill="#f7c948" stroke="#b8860b"/></symbol>
+    <symbol id="i-carpeta" viewBox="0 0 32 32"><path d="M3 8h9l3 3h14v15H3z" fill="#f4d06f" stroke="#b8860b" stroke-width="1.5"/><path d="M3 13h26v13H3z" fill="#ffe8a3" stroke="#b8860b" stroke-width="1.5"/></symbol>
+    <symbol id="i-ok" viewBox="0 0 32 32"><circle cx="16" cy="16" r="12" fill="#e6f4e6" stroke="#3c9a3c" stroke-width="1.5"/><path d="M9 16l5 5 9-10" fill="none" stroke="#2e8b2e" stroke-width="3"/></symbol>
+    <symbol id="i-no" viewBox="0 0 32 32"><circle cx="16" cy="16" r="12" fill="#fbe9e9" stroke="#c0392b" stroke-width="1.5"/><path d="M10 10l12 12M22 10L10 22" stroke="#c0392b" stroke-width="3"/></symbol>
+    <symbol id="i-erp" viewBox="0 0 32 32"><rect x="4" y="6" width="24" height="18" rx="2" fill="#dbe8f7" stroke="#3b6ea8" stroke-width="1.5"/><path d="M4 11h24M11 6v18" stroke="#3b6ea8" stroke-width="1.5"/><path d="M14 27h4" stroke="#3b6ea8" stroke-width="2"/><path d="M16 15l5 3-5 3z" fill="#2e8b2e"/></symbol>
+    <symbol id="i-ver" viewBox="0 0 32 32"><circle cx="13" cy="13" r="8" fill="#fff" stroke="#3b6ea8" stroke-width="2"/><path d="M19 19l8 8" stroke="#3b6ea8" stroke-width="3"/></symbol>
+    <symbol id="i-refresco" viewBox="0 0 32 32"><path d="M25 16a9 9 0 1 1-3-6.7" fill="none" stroke="#2e8b2e" stroke-width="2.5"/><path d="M25 6v6h-6" fill="none" stroke="#2e8b2e" stroke-width="2.5"/></symbol>
+    <symbol id="i-abrir" viewBox="0 0 32 32"><rect x="4" y="7" width="20" height="20" rx="2" fill="#dbe8f7" stroke="#3b6ea8" stroke-width="1.5"/><path d="M4 12h20" stroke="#3b6ea8" stroke-width="1.5"/><path d="M17 4h11v11" fill="none" stroke="#2e8b2e" stroke-width="2.5"/><path d="M28 4L15 17" stroke="#2e8b2e" stroke-width="2.5"/></symbol>
+    <symbol id="i-cerrar" viewBox="0 0 32 32"><rect x="5" y="7" width="22" height="18" rx="2" fill="#f3f3f3" stroke="#6b7c8f" stroke-width="1.5"/><path d="M5 12h22" stroke="#6b7c8f" stroke-width="1.5"/><path d="M11 19l3 3 7-7" fill="none" stroke="#6b7c8f" stroke-width="2"/></symbol>
+  </defs>
+</svg>
+
+<div class="ventana">
+  <div class="titulo"><span class="bola"></span><span id="titulo-ventana">Ordena - Bandeja de tickets - CRONUS España S.A.</span>
+    <span class="botones-ventana"><span>_</span><span>▢</span><span>✕</span></span></div>
+
+  <div class="cinta">
+    <div class="cinta-pestanas"><span class="menu-azul">▾</span><span class="pestana activa">Inicio</span><span class="pestana">Acciones</span><span class="pestana">Navegar</span><span class="pestana">Informe</span><span class="badge">+++ PRUEBA DE CONCEPTO +++</span></div>
+    <div class="cinta-cuerpo">
+      <div class="grupo"><div class="botones">
+        <button class="grande" id="btn-nuevo"><svg><use href="#i-nuevo"/></svg>Nuevo<br>mensaje</button>
+        <button class="grande" id="btn-archivo"><svg><use href="#i-carpeta"/></svg>Abrir<br>archivo</button>
+      </div><div class="grupo-nombre">Nuevo</div></div>
+      <div class="grupo"><div class="botones">
+        <button class="grande" id="btn-ver" disabled><svg><use href="#i-ver"/></svg>Ver</button>
+        <button class="grande" id="btn-validar" disabled><svg><use href="#i-ok"/></svg>Validar</button>
+        <button class="grande" id="btn-rechazar" disabled><svg><use href="#i-no"/></svg>Rechazar</button>
+        <button class="grande" id="btn-cerrar" disabled><svg><use href="#i-cerrar"/></svg>Cerrar</button>
+      </div><div class="grupo-nombre">Administrar</div></div>
+      <div class="grupo"><div class="botones">
+        <button class="grande" id="btn-escribir" disabled><svg><use href="#i-erp"/></svg>Escribir<br>en ERP</button>
+      </div><div class="grupo-nombre">Proceso</div></div>
+      <div class="grupo"><div class="botones">
+        <button class="grande" id="btn-refrescar"><svg><use href="#i-refresco"/></svg>Actualizar</button>
+      </div><div class="grupo-nombre">Página</div></div>
+    </div>
+  </div>
+
+  <div class="cuerpo">
+    <div class="panel-nav">
+      <div class="cab">Departamentos</div>
+      <div class="item" data-vista="pedidos">Tickets de pedido <span class="n" id="n-pedidos"></span></div>
+      <div class="item" data-vista="otros">Otros tickets <span class="n" id="n-otros"></span></div>
+      <div class="item" data-vista="mensajes">Mensajes <span class="n" id="n-mensajes"></span></div>
+    </div>
+
+    <div class="pagina">
+      <div class="pagina-titulo" id="titulo-lista">Tickets de pedido</div>
+      <div class="subtitulo" id="subtitulo-lista">Pendientes de validación. Doble clic abre la ficha.</div>
+      <div class="zona-drop" id="zona-drop">Arrastra aquí un correo (.txt), una nota de voz o un archivo, o <a id="enlace-archivo">elige un archivo</a>. El ticket aparece cuando Ordena termina.</div>
+      <div class="pestanas-lista">
+        <span data-vista="pedidos" class="activa">Pedidos</span><span data-vista="otros">Otros</span><span data-vista="mensajes">Mensajes</span>
+      </div>
+      <div class="rejilla-marco"><table class="rejilla" id="rejilla"><thead></thead><tbody></tbody></table></div>
+    </div>
+
+    <div class="factboxes">
+      <div class="factbox"><div class="fb-cab">Ordena <span class="eng">⚙ ▴</span></div><div class="fb-cuerpo" id="fb-estado"></div></div>
+      <div class="factbox"><div class="fb-cab">Mensaje original <span class="eng">⚙ ▴</span></div><div class="fb-cuerpo" id="fb-original"><span style="color:#6b7c8f">Selecciona un ticket.</span></div></div>
+      <div class="factbox"><div class="fb-cab">Dudosos <span class="eng">⚙ ▴</span></div><div class="fb-cuerpo" id="fb-dudosos"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ventana hija: ficha de ticket -->
+<div class="modal-fondo" id="ventana-ticket">
+  <div class="hija">
+    <div class="titulo"><span class="bola"></span><span id="titulo-ticket">Editar - Ticket</span>
+      <span class="botones-ventana"><span>_</span><span>▢</span><span id="cerrar-ticket" style="cursor:pointer">✕</span></span></div>
+    <div class="cinta">
+      <div class="cinta-pestanas"><span class="menu-azul">▾</span><span class="pestana activa">Inicio</span><span class="pestana">Acciones</span><span class="badge">+++ PRUEBA DE CONCEPTO +++</span></div>
+      <div class="cinta-cuerpo">
+        <div class="grupo"><div class="botones">
+          <button class="grande" id="ft-validar"><svg><use href="#i-ok"/></svg>Validar</button>
+          <button class="grande" id="ft-rechazar"><svg><use href="#i-no"/></svg>Rechazar</button>
+          <button class="grande" id="ft-cerrar"><svg><use href="#i-cerrar"/></svg>Cerrar</button>
+        </div><div class="grupo-nombre">Administrar</div></div>
+        <div class="grupo"><div class="botones">
+          <button class="grande" id="ft-escribir"><svg><use href="#i-erp"/></svg>Escribir<br>en ERP</button>
+          <button class="grande" id="ft-abrir-bc" title="Abrir el pedido en Business Central"><svg><use href="#i-abrir"/></svg>Abrir<br>en el ERP</button>
+        </div><div class="grupo-nombre">Proceso</div></div>
+      </div>
+    </div>
+    <div class="contenido" id="ficha"></div>
+    <div class="pie"><button class="boton" id="ok-ticket">Aceptar</button></div>
+  </div>
+</div>
+
+<!-- ventana hija: nuevo mensaje -->
+<div class="modal-fondo" id="ventana-nuevo">
+  <div class="hija" style="width:640px">
+    <div class="titulo"><span class="bola"></span>Nuevo - Mensaje<span class="botones-ventana"><span id="cerrar-nuevo" style="cursor:pointer">✕</span></span></div>
+    <div class="contenido">
+      <div class="fasttab"><div class="ft-cab">General <span class="chev">▴</span></div><div class="ft-cuerpo">
+        <div class="campos">
+          <div class="k">Remitente:</div><div><input class="in" id="nuevo-remitente" placeholder="correo del cliente, si se sabe (helen.ray@contoso.com)"></div>
+          <div class="k">Fecha:</div><div><input class="in" id="nuevo-fecha" type="datetime-local"></div>
+        </div>
+      </div></div>
+      <div class="fasttab"><div class="ft-cab">Mensaje <span class="chev">▴</span></div><div class="ft-cuerpo">
+        <textarea class="ta" id="nuevo-texto" placeholder="Pega aquí el correo o el texto del cliente, tal cual llega."></textarea>
+      </div></div>
+    </div>
+    <div class="pie"><button class="boton primario" id="enviar-nuevo">Enviar a Ordena</button><button class="boton" id="cancelar-nuevo">Cancelar</button></div>
+  </div>
+</div>
+
+<input type="file" id="input-archivo" multiple hidden>
+<div class="toast" id="toast"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>
