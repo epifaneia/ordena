@@ -48,6 +48,25 @@ def _numero_en_texto(valor: float, texto: str) -> bool:
     return any(re.search(rf"(?<![0-9a-z]){re.escape(f)}(?![0-9a-z])", ntexto) for f in formas)
 
 
+NO_LITERAL = "el modelo no copió literal: no está en el mensaje"
+
+
+def _copiado_literal(tal_cual: Optional[str], texto: str) -> bool:
+    """Lo que el modelo dice copiar tiene que estar en el mensaje. Se perdonan mayúsculas,
+    tildes, signos y espacios (normalizar); una letra cambiada, no: "lámpera" no es "lámparas"."""
+    if not tal_cual or not tal_cual.strip():
+        return True
+    ntal = normalizar(tal_cual)
+    return not ntal or f" {ntal}" in f" {normalizar(texto)}"
+
+
+def _marcar_no_literal(campo: CampoResuelto) -> None:
+    """No se corrige: se marca dudoso y se dice por qué, conservando el motivo que hubiera."""
+    previo = f"; {campo.motivo}" if campo.dudoso and campo.motivo else ""
+    campo.dudoso = True
+    campo.motivo = NO_LITERAL + previo
+
+
 def _destino(l, p: Peticion) -> str:
     return (l.destino_tal_cual or p.direccion_entrega_tal_cual or "").strip()
 
@@ -78,11 +97,14 @@ def _partir_por_destino(p: Peticion) -> list[tuple[Peticion, Optional[str]]]:
     return partes
 
 
-def _lineas(p: Peticion, m: Maestros, texto_mensaje: str) -> tuple[list[LineaResuelta], list[str]]:
+def _lineas(p: Peticion, m: Maestros, texto_mensaje: str, texto_literal: Optional[str] = None) -> tuple[list[LineaResuelta], list[str]]:
     lineas: list[LineaResuelta] = []
     dudosos: list[str] = []
     for n, l in enumerate(p.lineas, 1):
         art = resolver_articulo(l, m)
+        if not _copiado_literal(l.descripcion_tal_cual, texto_literal or texto_mensaje):
+            # "lámpera de Amsterdam" cuando el mensaje dice "lámparas": el artículo puede salir bien, pero no nos fiamos.
+            _marcar_no_literal(art)
         articulo = articulo_por_numero(art.valor, m)
         unidad = resolver_unidad(l.unidad_tal_cual, articulo)
         aviso_precio = comprobar_precio(l.precio_mencionado, articulo)
@@ -139,6 +161,11 @@ def _ticket(mensaje: Mensaje, p: Peticion, n: int, m: Maestros, motivo_particion
         cliente = deducir_cliente(mensaje.texto, m)
     ficha = cliente_por_numero(cliente.valor, m)
     direccion = resolver_direccion(p.direccion_entrega_tal_cual, ficha)
+    texto_literal = " ".join(x for x in (mensaje.asunto, mensaje.texto) if x)
+    if not _copiado_literal(p.tercero_tal_cual, texto_literal):
+        _marcar_no_literal(cliente)
+    if not _copiado_literal(p.direccion_entrega_tal_cual, texto_literal):
+        _marcar_no_literal(direccion)
     fecha_tal_cual = p.fecha_entrega_tal_cual
     if fecha_tal_cual and p.direccion_entrega_tal_cual and normalizar(fecha_tal_cual).replace("para ", "") == normalizar(p.direccion_entrega_tal_cual).replace("para ", ""):
         # "para el almacén de Sevilla Este" es un destino, no una fecha. Los modelos pequeños lo confunden.
@@ -146,7 +173,7 @@ def _ticket(mensaje: Mensaje, p: Peticion, n: int, m: Maestros, motivo_particion
     fecha = resolver_fecha(fecha_tal_cual, mensaje.fecha, mensaje.texto)
     if p.fecha_entrega_tal_cual and not fecha_tal_cual:
         fecha.motivo = "el modelo puso el destino como fecha; no hay fecha en el mensaje"
-    lineas, dudosos_lineas = _lineas(p, m, mensaje.texto)
+    lineas, dudosos_lineas = _lineas(p, m, mensaje.texto, texto_literal)
 
     dudosos: list[str] = []
     if cliente.dudoso:

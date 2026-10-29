@@ -39,9 +39,9 @@ Entender un mensaje humano: "lo de siempre, pero dos sillas más, y que llegue e
 |---|---|---|
 | 1 · Limpieza | `transcribir.py`: Whisper (faster-whisper large-v3-turbo) en local, con el vocabulario de clientes y artículos de los maestros; los segmentos de baja confianza quedan marcados. El texto entra tal cual, con remitente y fecha. | |
 | 2 · Contexto | El mensaje, su fecha y el remitente. El modelo no recibe la tarifa ni puede inventar códigos: no los ve. | |
-| 3 · Guardarraíl de entrada | `esquema.py`: un esquema cerrado (Pydantic) forzado en la salida del modelo, a temperatura 0. Todo lo que el modelo devuelve es **tal cual** lo dijo el mensaje: el nombre del cliente, la descripción del artículo, la fecha en palabras. | |
+| 3 · Guardarraíl de entrada | `esquema.py`: un esquema cerrado (Pydantic) forzado en la salida del modelo, a temperatura 0. Al modelo se le pide copiar **tal cual** del mensaje (el nombre del cliente, la descripción del artículo, la fecha en palabras) y no inventar códigos. Los modelos pequeños no siempre obedecen: el paso 5 lo comprueba. | |
 | 4 · Proceso | Una llamada por mensaje: Ollama en local por defecto (qwen2.5:7b en una GPU de 6 GB). Gemini y Groq existen solo para medir el techo con datos de CRONUS, y hay que pedirlos. | |
-| 5 · Guardarraíl de salida | `resolver.py` y `tickets.py`: cliente y artículo se resuelven contra los maestros; si el segundo candidato está a menos de 8 puntos del primero, es **ambiguo** y queda dudoso. Fechas relativas ("el jueves") calculadas desde la fecha del mensaje. Un precio que no cuadra con la tarifa, o que no aparece literalmente en el mensaje, queda dudoso: no se sobrescribe. Un ticket sin los campos obligatorios nace incompleto. `bc.py` crea el pedido **sin registrar**, con el id del ticket como número de documento externo (repetir el mismo mensaje no lo duplica) y adjunta el original comprobando que llega entero. | ★ |
+| 5 · Guardarraíl de salida | `resolver.py` y `tickets.py`: cliente y artículo se resuelven contra los maestros; si el segundo candidato está a menos de 8 puntos del primero, es **ambiguo** y queda dudoso. Fechas relativas ("el jueves") calculadas desde la fecha del mensaje. Un precio que no cuadra con la tarifa, o que no aparece literalmente en el mensaje, queda dudoso: no se sobrescribe. Igual el cliente, la dirección de entrega y cada descripción de artículo que copió el modelo: si no está en el mensaje (sin contar mayúsculas, tildes, signos ni espacios), queda dudoso con "el modelo no copió literal", sin corregirlo. Una fecha que vuelve ya calculada (`2026-11-02`) y que el mensaje no contiene, también. Un ticket sin los campos obligatorios nace incompleto. `bc.py` crea el pedido **sin registrar**, con el id del ticket como número de documento externo (repetir el mismo mensaje no lo duplica) y adjunta el original comprobando que llega entero. | ★ |
 
 ## La bandeja
 
@@ -108,7 +108,7 @@ Más [los puntos de contacto con Business Central](docs/arquitectura/business-ce
 - Solo Business Central online. El adaptador de Navision en servidor (SOAP sobre la página 42) está diseñado y no escrito.
 - Solo texto y voz. PDF, Excel y papel escaneado pasarían por Docling ([ADR-0003](docs/decisiones/0003-docling-para-documentos-sucios.md)), que no está conectado.
 - La bandeja no une ni parte tickets, no manda acuse de recibo ni borrador de preguntas al cliente, no tiene roles ni búsqueda, y no consulta el histórico del cliente ("lo de siempre" queda dudoso).
-- No hay tests automáticos ni registro de custodia (quién lanzó qué, qué salió de la máquina). Es lo siguiente.
+- Pocos tests automáticos: `tests/test_tickets.py` cubre la comprobación de literalidad y parte del resolver, sin red. El contacto y las observaciones no se comprueban contra el mensaje. No hay registro de custodia (quién lanzó qué, qué salió de la máquina). Es lo siguiente.
 
 ---
 
@@ -135,6 +135,7 @@ ordena_poc/   esquema · transcribir · interpretar · maestros · resolver · t
 ordena_poc/web/   la bandeja (FastAPI y una página con la estética de Navision 2013)
 data/         maestros_demo.json: una aproximación a CRONUS para trabajar sin conexión
 ejemplos/     pedidos de prueba, una interpretación hecha y el guion de las notas de voz
+tests/        test_tickets.py: sin red y sin modelo (python tests/test_tickets.py)
 docs/         decisiones/ (siete ADR) · arquitectura/ · glosario
 ```
 

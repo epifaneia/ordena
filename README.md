@@ -39,9 +39,9 @@ Understanding a human message: "the usual, but two more chairs, and have it arri
 |---|---|---|
 | 1 · Cleaning | `transcribir.py`: Whisper (faster-whisper large-v3-turbo) locally, primed with the customers' and items' vocabulary from the master data; low-confidence segments are flagged. Text comes in as is, with sender and date. | |
 | 2 · Context | The message, its date and its sender. The model never sees the price list or the item codes, so it cannot invent them. | |
-| 3 · Input guardrail | `esquema.py`: a closed schema (Pydantic) forced on the model's output, at temperature 0. Everything the model returns is **verbatim** from the message: the customer's name, the item's description, the date in words. | |
+| 3 · Input guardrail | `esquema.py`: a closed schema (Pydantic) forced on the model's output, at temperature 0. The model is told to copy **verbatim** from the message (the customer's name, the item's description, the date in words) and not to invent codes. Small models do not always obey: step 5 checks it. | |
 | 4 · Process | One call per message: Ollama locally by default (qwen2.5:7b on a 6 GB GPU). Gemini and Groq exist only to measure the ceiling on CRONUS data, and have to be asked for. | |
-| 5 · Output guardrail | `resolver.py` and `tickets.py`: customer and item are resolved against the master data; if the second candidate is within 8 points of the first, it is **ambiguous** and flagged. Relative dates ("Thursday") are computed from the message date. A price that does not match the price list, or does not appear literally in the message, is flagged, never overwritten. A ticket missing a mandatory field is born incomplete. `bc.py` creates the order **unposted**, with the ticket id as external document number (processing the same message twice does not duplicate it), and attaches the original, checking it arrives whole. | ★ |
+| 5 · Output guardrail | `resolver.py` and `tickets.py`: customer and item are resolved against the master data; if the second candidate is within 8 points of the first, it is **ambiguous** and flagged. Relative dates ("Thursday") are computed from the message date. A price that does not match the price list, or does not appear literally in the message, is flagged, never overwritten. The same goes for the customer, the delivery address and each item description the model copied: if it is not in the message (ignoring case, accents, punctuation and spacing), it is flagged "the model did not copy verbatim", never corrected. A date returned already computed (`2026-11-02`) that the message does not contain is flagged too. A ticket missing a mandatory field is born incomplete. `bc.py` creates the order **unposted**, with the ticket id as external document number (processing the same message twice does not duplicate it), and attaches the original, checking it arrives whole. | ★ |
 
 ## The tray
 
@@ -108,7 +108,7 @@ Plus the [Business Central touch points](docs/arquitectura/business-central.md),
 - Business Central online only. The adapter for on-premise Navision (SOAP on page 42) is designed, not written.
 - Text and voice only. PDF, Excel and scanned paper would go through Docling ([ADR-0003](docs/decisiones/0003-docling-para-documentos-sucios.md)), which is not wired in.
 - The tray does not merge or split tickets, send acknowledgements or draft questions back to the customer, has no roles or search, and does not look at the customer's history ("the usual" stays doubtful).
-- No automated tests and no custody ledger (who ran what, what left the machine). That comes next.
+- Few automated tests: `tests/test_tickets.py` covers the verbatim check and some resolver logic, offline. Contact and observations are not checked for verbatim copy. No custody ledger (who ran what, what left the machine). That comes next.
 
 ---
 
@@ -135,6 +135,7 @@ ordena_poc/   esquema · transcribir · interpretar · maestros · resolver · t
 ordena_poc/web/   the tray (FastAPI and a page styled after Navision 2013)
 data/         maestros_demo.json: an approximation of CRONUS to work offline
 ejemplos/     test orders, a ready-made interpretation and the voice-note script
+tests/        test_tickets.py: offline, no model (python tests/test_tickets.py)
 docs/         decisiones/ (seven ADRs) · arquitectura/ · glossary
 ```
 
