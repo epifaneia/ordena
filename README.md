@@ -118,7 +118,7 @@ The same four headings as in the other repositories. Rows marked **today** are w
 
 | | | |
 |---|---|---|
-| **Confidentiality** | Transcription and model run locally by default: the message does not leave the machine. The cloud is used only when asked for (`--llm gemini`, `--stt groq`) and is meant for comparing on demo data, never on a company's data. `.env`, tokens, audio and the tray are outside git. | **today** |
+| **Confidentiality** | Transcription and model run locally by default: the message does not leave the machine. The cloud is used only when asked for (`--llm gemini`, `--stt groq`) and is meant for comparing on demo data, never on a company's data. One exception: `comparar` runs every engine side by side, so by default it also sends the message to Gemini and Groq; pass `--llm` and `--stt` with local engines only to keep it on the machine. `.env`, tokens, audio and the tray are outside git. | **today** |
 | **Traceability** | Every run leaves in `salida/` the message, the transcript, the model's raw output and the tickets. In the tray, every ticket keeps its original, its state history and the number of the order it created; in Business Central, the order carries the ticket id as external document and the original attached. | **today** |
 | | A custody ledger per model call (actor, step, whether data left the machine, input hash), as in the other repositories. | **next** |
 | **Leak prevention** | Authentication with Microsoft Entra ID: device code for testing, application credentials for production. No username and password and no web-service keys in the code. The application's permissions are bounded in Business Central, with a hand-written permission set that cannot post. | **today** |
