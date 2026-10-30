@@ -99,6 +99,14 @@ check("normalizar: tildes, mayúsculas, signos y espacios", normalizar("  Lámpa
 c = resolver_cliente(None, "JESSE.HOMER@contoso.com", MAESTROS)
 check("cliente por remitente conocido", c.valor == "50000" and not c.dudoso, f"{c.valor} {c.motivo}")
 
+c = resolver_cliente("Relecloud", "jesse.homer@contoso.com", MAESTROS)
+check("remitente y mensaje dicen el mismo cliente: seguro", c.valor == "50000" and not c.dudoso, f"{c.valor} {c.motivo}")
+
+# Caso de la revisión del 30 oct: Jesse (Relecloud) escribe «de parte de los de Trey Research».
+c = resolver_cliente("los de Trey Research", "jesse.homer@contoso.com", MAESTROS)
+check("remitente de un cliente y mensaje de otro: no se elige, se marca",
+      c.valor is None and c.dudoso and "20000" in (c.motivo or "") and len(c.candidatos) == 2, f"{c.valor} {c.motivo}")
+
 f = resolver_fecha("el jueves", FECHA)
 check("fecha relativa: el jueves desde el lunes 26/10/2026", f.valor == "2026-10-29" and f.dudoso, f"{f.valor} {f.motivo}")
 

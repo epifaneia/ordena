@@ -94,16 +94,27 @@ def _elegir(tal_cual: str, opciones: list[tuple[str, str, str]], scorer, seguro:
 
 
 def resolver_cliente(tal_cual: Optional[str], remitente: Optional[str], m: Maestros) -> CampoResuelto:
+    opciones = [(_clave(c.nombre), c.numero, c.nombre) for c in m.clientes]
     if remitente:
         for c in m.clientes:
             if c.email and c.email.lower() == remitente.lower():
+                # El remitente no manda sobre el texto: un comercial puede escribir de parte de otro
+                # cliente. Si el mensaje nombra a un cliente distinto, no se elige: se marca.
+                por_nombre = _elegir(tal_cual, opciones, fuzz.WRatio, SEGURO_CLIENTE) if tal_cual else None
+                if por_nombre and por_nombre.valor and por_nombre.valor != c.numero:
+                    return CampoResuelto(
+                        tal_cual=tal_cual, dudoso=True,
+                        motivo=(f"el remitente está en la ficha de {c.numero} · {c.nombre}, pero el mensaje "
+                                f"nombra a {por_nombre.valor} · {por_nombre.etiqueta}; confirmar"),
+                        candidatos=[f"{c.numero} · {c.nombre} (remitente)",
+                                    f"{por_nombre.valor} · {por_nombre.etiqueta} (nombrado)"],
+                    )
                 return CampoResuelto(
                     tal_cual=tal_cual, valor=c.numero, etiqueta=c.nombre, puntuacion=100.0,
                     dudoso=False, motivo="remitente conocido en la ficha del cliente",
                 )
     if not tal_cual:
         return CampoResuelto(dudoso=True, motivo="el mensaje no nombra al cliente y el remitente no está en ninguna ficha")
-    opciones = [(_clave(c.nombre), c.numero, c.nombre) for c in m.clientes]
     return _elegir(tal_cual, opciones, fuzz.WRatio, SEGURO_CLIENTE)
 
 
